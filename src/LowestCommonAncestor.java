@@ -9,7 +9,7 @@ public class LowestCommonAncestor {
 
 	
 	public static Node lowestCommonAncestor(Node a, Node b) {
-		return new Node();
+		return new Node(0);
 	}
 
 }
@@ -23,7 +23,7 @@ class Node{
 		this.value = value;
 	}
 
-	public Node() {
-		// TODO Auto-generated constructor stub
+	public Node(int value) {
+		this.value = value;
 	}
 }

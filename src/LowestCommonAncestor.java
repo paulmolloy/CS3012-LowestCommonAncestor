@@ -4,10 +4,6 @@ import java.util.LinkedList;
 // Paul Molloy 15323050 based on CS2010 BST assignment 
 public class LowestCommonAncestor {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 	
 
 //	
@@ -98,7 +94,7 @@ class BST<Key extends Comparable<Key>, Value> {
     	if(cmp < 0) x.left = put(x.left, key, val);
     	else if(cmp > 0) x.right = put(x.right, key, val);
     	else x.val = val;
-    	x.size = 1 + size(x.left) + size(x.left.right);
+    	x.size = 1 + size(x.left) + size(x.right);
 
 
     	return x;
@@ -108,6 +104,11 @@ class BST<Key extends Comparable<Key>, Value> {
     public String prettyPrint() {
     	return root.prettyPrint();
     }
+
+	public Object lowestCommonAncestor(int i, int j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     
 

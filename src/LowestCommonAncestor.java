@@ -1,4 +1,7 @@
-	
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+// Paul Molloy 15323050 based on CS2010 BST assignment 
 public class LowestCommonAncestor {
 
 	public static void main(String[] args) {
@@ -27,12 +30,28 @@ class BST<Key extends Comparable<Key>, Value> {
 			this.parent = parent;
 			this.val = value;
 			this.size = size;
+			this.key = key;
 		}
+		
+	    public StringBuilder prettyPrint(StringBuilder prefix, boolean isTail, StringBuilder sb) {
+	        if(right!=null) {
+	            right.prettyPrint(new StringBuilder().append(prefix).append(isTail ? "│   " : "    "), false, sb);
+	        }
+	        sb.append(prefix).append(isTail ? "└── " : "┌── ").append(val.toString()).append("\n");
+	        if(left!=null) {
+	            left.prettyPrint(new StringBuilder().append(prefix).append(isTail ? "    " : "│   "), true, sb);
+	        }
+	        return sb;
+	    }
+
+	    public String prettyPrint() {
+	        return this.prettyPrint(new StringBuilder(), true, new StringBuilder()).toString();
+	    }
 
 	}
 	
 	public BST() {
-		
+
 	}
 	
 	public boolean isEmpty() {
@@ -65,7 +84,8 @@ class BST<Key extends Comparable<Key>, Value> {
     	else 				return get(x.right, key);
     }
     
-    private void put(Key key, Value val) {
+    public void put(Key key, Value val) {
+
     	if (key == null) throw new IllegalArgumentException("put() on a null key");
     	if (val == null) {
     		//delete(key);
@@ -79,8 +99,17 @@ class BST<Key extends Comparable<Key>, Value> {
     	else if(cmp > 0) x.right = put(x.right, key, val);
     	else x.val = val;
     	x.size = 1 + size(x.left) + size(x.left.right);
+
+
     	return x;
 
     }
+    
+    public String prettyPrint() {
+    	return root.prettyPrint();
+    }
+
+    
+
 }
 

@@ -131,13 +131,18 @@ class BST<Key extends Comparable<Key>, Value> {
     	return root.prettyPrint();
     }
 
-	public Object lowestCommonAncestor(Key i, Key j) {
+	public Key lowestCommonAncestor(Key i, Key j) {
 		List<Node> iPath = getPath(i);
 		List<Node> jPath = getPath(j);
+		int pos = 0;
+		while(pos < iPath.size() && pos <jPath.size() && 
+				iPath.get(pos).key == jPath.get(pos).key) {
+			pos++;
+		}
 		System.out.println(iPath.toString());
 		System.out.println(jPath.toString());
-		// TODO Auto-generated method stub
-		return null;
+		if(pos>1) return iPath.get(pos-1).key;
+		return null; // The BST can't have unconnected nodes but just in case.
 	}
 
     

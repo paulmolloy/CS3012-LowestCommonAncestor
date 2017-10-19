@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 // Paul Molloy 15323050 based on CS2010 BST assignment 
 public class LowestCommonAncestor {
 
@@ -80,6 +82,30 @@ class BST<Key extends Comparable<Key>, Value> {
     	else 				return get(x.right, key);
     }
     
+    public List<Node> getPath(Key key) {
+    	List<Node> path = new ArrayList<Node>();
+    	return getPath(root, key, path);
+    }
+    
+    private  List<Node> getPath(Node x, Key key, List<Node> path) {
+    	if(key == null) throw new IllegalArgumentException("get() on a null key");
+    	if(x == null) return null;
+    	int cmp = key.compareTo(x.key);
+    	if(cmp == 0) {
+    		path.add(x);
+    		return path;
+    	}
+    	else if (cmp < 0 ){
+    		path.add(x);
+    		return getPath(x.left, key, path);
+    	}
+    	else {
+    		path.add(x);
+    		return getPath(x.right, key, path);
+    	}
+    }
+    
+    
     public void put(Key key, Value val) {
 
     	if (key == null) throw new IllegalArgumentException("put() on a null key");
@@ -105,7 +131,11 @@ class BST<Key extends Comparable<Key>, Value> {
     	return root.prettyPrint();
     }
 
-	public Object lowestCommonAncestor(int i, int j) {
+	public Object lowestCommonAncestor(Key i, Key j) {
+		List<Node> iPath = getPath(i);
+		List<Node> jPath = getPath(j);
+		System.out.println(iPath.toString());
+		System.out.println(jPath.toString());
 		// TODO Auto-generated method stub
 		return null;
 	}

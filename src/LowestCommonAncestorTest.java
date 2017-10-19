@@ -50,18 +50,44 @@ public class LowestCommonAncestorTest {
 	@Test
 	public void testLowestCommonAncestor() {
 		BST<Integer, Integer> tree = new BST<Integer, Integer>();
-		tree.put(10, 10);
+		tree.put(10, 10); // (Key, value)
 		tree.put(5, 5);
 		tree.put(2, 2);
 		tree.put(20, 20);
 		tree.put(35, 35);
 		tree.put(36, 36);
 		tree.put(34, 34);
+		System.out.println(tree.prettyPrint());
+
 
 		Integer expectedResult = 35;
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 34) );
+		 expectedResult = 34;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(34, 34) );
+		 expectedResult = 10;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 5) );
+		 expectedResult = 10;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(5, 36) );
+		 expectedResult = 10;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 36) );
+		 expectedResult = 10;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 2) );
+		 expectedResult = 10;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 2) );
+		 expectedResult = 2;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 2) );
+		 expectedResult = 10;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 10) );
+		 expectedResult = 2;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 2) );
+		 expectedResult = 20;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 34) );
+		 expectedResult = 10;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(10, 10) );
+		 expectedResult = 5;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 5) );
 
-		System.out.println(tree.prettyPrint());
+
 
 /*│           ┌── 36
 │       ┌── 35

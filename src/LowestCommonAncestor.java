@@ -141,7 +141,6 @@ class BST<Key extends Comparable<Key>, Value> {
 		int posJ = 0;
 		boolean foundI = false;
 		boolean foundJ = false;
-		System.out.println("i: " + i + "j: " + j);
 
 		while((posI < iPath.size() && posJ <jPath.size() && 
 				iPath.get(posI).key == jPath.get(posJ).key)

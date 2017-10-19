@@ -131,9 +131,12 @@ class BST<Key extends Comparable<Key>, Value> {
     	return root.prettyPrint();
     }
 
+    // lowestCommonAncestor gets the key that is the lowest common ancestor of two given keys
 	public Key lowestCommonAncestor(Key i, Key j) {
 		List<Node> iPath = getPath(i);
 		List<Node> jPath = getPath(j);
+		Key nullKey = null;
+		if(jPath==null || iPath==null) return nullKey; // if one node doesnt exist
 		int posI = 0;
 		int posJ = 0;
 		boolean foundI = false;
@@ -143,9 +146,6 @@ class BST<Key extends Comparable<Key>, Value> {
 		while((posI < iPath.size() && posJ <jPath.size() && 
 				iPath.get(posI).key == jPath.get(posJ).key)
 				&& (!(foundI && foundJ))) {
-			System.out.println("CURI: " + iPath.get(posI).key);
-			System.out.println("CURJ: " + jPath.get(posJ).key);
-			System.out.println("FI: " + foundI + "FJ: " + foundJ + "  " + (!foundI || !foundJ));
 			if(iPath.get(posI).key!=i) { 
 				posI++;
 			}else{
@@ -158,20 +158,11 @@ class BST<Key extends Comparable<Key>, Value> {
 			}
 			
 		}
-		System.out.println("endCURI: " + iPath.get(posI).key);
-		System.out.println("endCURJ: " + jPath.get(posJ).key);
-		
-		System.out.println("Same; " +iPath.get(posI).key == jPath.get(posJ).key);
-		System.out.println(iPath.toString());
-		System.out.println(jPath.toString());
 		if(foundI && foundJ) return iPath.get(posI).key;
-		if(posI<posJ && posI>1) return iPath.get(posI-1).key;
 		else if ( posJ>1) return jPath.get(posJ-1).key;
-		else if (iPath.get(posI).key == jPath.get(posJ).key ) return iPath.get(posI).key;
 		else if (posI<iPath.size() && posI>0) return iPath.get(posI-1).key;
-		else if (posJ<jPath.size() && posJ>0) return jPath.get(posJ-1).key;
-
-		return null; // The BST can't have unconnected nodes but just in case.
+		//else if (posJ<jPath.size() && posJ>0) return jPath.get(posJ-1).key;
+		return null;
 	}
 
     

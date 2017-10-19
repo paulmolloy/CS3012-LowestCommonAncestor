@@ -86,6 +86,10 @@ public class LowestCommonAncestorTest {
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(10, 10) );
 		 expectedResult = 5;
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 5) );
+		 expectedResult = 20;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 20) );
+		 expectedResult = null;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 50) );
 
 
 

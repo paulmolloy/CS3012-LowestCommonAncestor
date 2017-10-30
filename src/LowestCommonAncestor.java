@@ -8,10 +8,20 @@ public class LowestCommonAncestor {
 
 	
 
-//	
-//	public static BST lowestCommonAncestor(Node a, Node b) {
-//		return new Node(0);
-//	}
+/*
+ * Modifying to work for Directed Acyclic Graphs
+ * LCA(a , b)
+ * 
+ * 1. Mark all ancestors of a with A
+ * 2. Mark all ancestors of b that are ancestors of a too with B
+ * 3. Mark parent of all B as C
+ * 4. Any node marked B is lowest common ancestor of the two.
+ * 
+ * 
+ * TODO: create addEdge(Key a, Key b)
+ * TODO: modify lowestCommonAncestor()
+ * 
+ */
 
 }
 class BST<Key extends Comparable<Key>, Value> {

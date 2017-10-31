@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 // Paul Molloy 15323050 based on CS2010 BST assignment 
 public class LowestCommonAncestor {
 
@@ -26,6 +28,7 @@ public class LowestCommonAncestor {
 }
 class BST<Key extends Comparable<Key>, Value> {
 	private Node root;
+	Map<Key, Node> nodes;
 	
 	private class Node{
 		private Node parent;
@@ -33,12 +36,17 @@ class BST<Key extends Comparable<Key>, Value> {
 		private Value val;
 		private Node left, right;
 		private int size;
+		Map<Key, Node> parents;
+		Map<Key, Node> children;
+
 		
 		public Node(Key key, Value value, int size){
-			this.parent = parent;
 			this.val = value;
 			this.size = size;
 			this.key = key;
+			this.parents = new HashMap<Key, Node>();
+			this.children = new HashMap<Key, Node>();
+
 		}
 		
 	    public StringBuilder prettyPrint(StringBuilder prefix, boolean isTail, StringBuilder sb) {
@@ -59,7 +67,13 @@ class BST<Key extends Comparable<Key>, Value> {
 	}
 	
 	public BST() {
+		this.nodes = new HashMap<Key, Node>();
 
+
+	}
+	
+	public Value get(Key k){
+		return nodes.get(k).val;
 	}
 	
 	public boolean isEmpty() {
@@ -76,65 +90,32 @@ class BST<Key extends Comparable<Key>, Value> {
 	
     public boolean contains(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to contains() is null");
-        return get(key) != null;
+        return nodes.containsKey(key);
     }
     
-    public Value get(Key key) {
-    	return get(root, key);
-    }
     
-    private Value get(Node x, Key key) {
-    	if(key == null) throw new IllegalArgumentException("get() on a null key");
-    	if(x == null) return null;
-    	int cmp = key.compareTo(x.key);
-    	if(cmp == 0) return x.val;
-    	else if (cmp < 0 ) return get(x.left, key);
-    	else 				return get(x.right, key);
-    }
-    
-    public List<Node> getPath(Key key) {
-    	List<Node> path = new ArrayList<Node>();
-    	return getPath(root, key, path);
-    }
-    
-    private  List<Node> getPath(Node x, Key key, List<Node> path) {
-    	if(key == null) throw new IllegalArgumentException("get() on a null key");
-    	if(x == null) return null;
-    	int cmp = key.compareTo(x.key);
-    	if(cmp == 0) {
-    		path.add(x);
-    		return path;
-    	}
-    	else if (cmp < 0 ){
-    		path.add(x);
-    		return getPath(x.left, key, path);
-    	}
-    	else {
-    		path.add(x);
-    		return getPath(x.right, key, path);
+    /* connect adds a directed edge from a to b
+     * 
+     */
+    private void connect(Node a, Node b){
+    	if(a!= null && b != null){
+        	a.children.put(b.key, b);
+        	b.parents.put(a.key, a);
     	}
     }
-    
-    
-    public void put(Key key, Value val) {
-
-    	if (key == null) throw new IllegalArgumentException("put() on a null key");
-    	if (val == null) {
-    		//delete(key);
+   
+    /*
+     * Parent can be set to null for an unconnected node. If the child key already exists the 
+     */
+    public void addChildNode(Key parent, Key childK, Value childVal ){
+    	Node temp;
+    	if(nodes.containsKey(childK)){
+    		temp = nodes.get(childK);
+    		temp.val = childVal;
     	}
-    	root = put(root, key, val);    	
-    }
-    private Node put(Node x, Key key, Value val) {
-    	if( x == null) return new Node(key, val, 1);
-    	int cmp = key.compareTo(x.key);
-    	if(cmp < 0) x.left = put(x.left, key, val);
-    	else if(cmp > 0) x.right = put(x.right, key, val);
-    	else x.val = val;
-    	x.size = 1 + size(x.left) + size(x.right);
-
-
-    	return x;
-
+		temp = new Node(childK, childVal, 0);
+		nodes.put(childK, temp);
+    	if (nodes.containsKey(parent)) connect(nodes.get(parent), temp);
     }
     
     public String prettyPrint() {
@@ -143,34 +124,6 @@ class BST<Key extends Comparable<Key>, Value> {
 
     // lowestCommonAncestor gets the key that is the lowest common ancestor of two given keys
 	public Key lowestCommonAncestor(Key i, Key j) {
-		List<Node> iPath = getPath(i);
-		List<Node> jPath = getPath(j);
-		Key nullKey = null;
-		if(jPath==null || iPath==null) return nullKey; // if one node doesnt exist
-		int posI = 0;
-		int posJ = 0;
-		boolean foundI = false;
-		boolean foundJ = false;
-
-		while((posI < iPath.size() && posJ <jPath.size() && 
-				iPath.get(posI).key == jPath.get(posJ).key)
-				&& (!(foundI && foundJ))) {
-			if(iPath.get(posI).key!=i) { 
-				posI++;
-			}else{
-				foundI = true;
-			}
-			if(jPath.get(posJ).key!=j) {
-				posJ++;
-			}else {
-				foundJ = true;
-			}
-			
-		}
-		if(foundI && foundJ) return iPath.get(posI).key;
-		else if ( posJ>1) return jPath.get(posJ-1).key;
-		else if (posI<iPath.size() && posI>0) return iPath.get(posI-1).key;
-		//else if (posJ<jPath.size() && posJ>0) return jPath.get(posJ-1).key;
 		return null;
 	}
 

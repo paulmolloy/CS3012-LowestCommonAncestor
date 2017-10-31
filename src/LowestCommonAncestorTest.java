@@ -12,20 +12,20 @@ import org.junit.Test;
 public class LowestCommonAncestorTest {
 
 	@Test
-	public void testBST() {
+	public void testDAG() {
 		BST<Integer, Integer> tree = new BST<Integer, Integer>();
 		assertTrue("Check is empty", tree.isEmpty() );
 		int expectedSize = 0 ;
 		assertEquals("tree.size() want: "+ expectedSize+ " got: " + tree.size(), expectedSize, tree.size() );
-		tree.put(10, 10);
+		tree.addChildNode(null, 10, 10);
 		expectedSize = 1;
 		assertEquals("tree.size() want: "+ expectedSize+ " got: " + tree.size(), expectedSize, tree.size() );
-		tree.put(5, 5);
+		tree.addChildNode(5, 10, 10);
 		assertEquals("Check is not empty", false, tree.isEmpty());
-		tree.put(2, 2);
+		tree.addChildNode(5, 2, 2);
 		expectedSize = 3;
 		assertEquals("tree.size() want: "+ expectedSize+ " got: " + tree.size(), expectedSize, tree.size() );
-		tree.put(20,20);
+		tree.addChildNode(10, 20, 20);
 		Integer expectedResult = 5;
 		assertEquals("Check get 5", expectedResult, tree.get(5) );
 		expectedResult = null;
@@ -34,7 +34,7 @@ public class LowestCommonAncestorTest {
 		assertEquals("Check get 20", expectedResult, tree.get(20) );
 		assertTrue("Check contains 20", tree.contains(20) );
 		assertFalse("Check contains 200000", tree.contains(200000) );
-		tree.put(20,20); //put 20 again
+		tree.addChildNode(10, 20,20); //put 20 again
 		expectedResult = 20;
 		assertEquals("Check get 20 still there", expectedResult, tree.get(20) );
 		expectedSize = 4;
@@ -50,13 +50,13 @@ public class LowestCommonAncestorTest {
 	@Test
 	public void testLowestCommonAncestor() {
 		BST<Integer, Integer> tree = new BST<Integer, Integer>();
-		tree.put(10, 10); // (Key, value)
-		tree.put(5, 5);
-		tree.put(2, 2);
-		tree.put(20, 20);
-		tree.put(35, 35);
-		tree.put(36, 36);
-		tree.put(34, 34);
+		tree.addChildNode(null, 10, 10); // (parentKey, Key, value)
+		tree.addChildNode(10, 5, 5);
+		tree.addChildNode(5, 2, 2);
+		tree.addChildNode(10, 20, 20);
+		tree.addChildNode(20, 35, 35);
+		tree.addChildNode(35, 36, 36);
+		tree.addChildNode(35, 34, 34);
 		System.out.println(tree.prettyPrint());
 
 

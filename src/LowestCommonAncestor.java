@@ -123,7 +123,42 @@ class DAG<Key extends Comparable<Key>, Value> {
 
     // lowestCommonAncestor gets the key that is the lowest common ancestor of two given keys
 	public Key lowestCommonAncestor(Key i, Key j) {
+		if(!contains(i) || !contains(j)) return null;
+		
+		Map<Node, Character> marker = new HashMap<Node, Character>();
+		Node nodeI = nodes.get(i);
+		Node nodeJ = nodes.get(j);
+		markNodes(marker, nodeI);
+		markNodesB(marker, nodeJ);
+		for(Map.Entry<Node, Character> e : marker.entrySet()){
+			if(e.getValue()=='B'){
+				for(Map.Entry<Key, Node> p : e.getKey().parents.entrySet()){
+					marker.put(p.getValue(), 'C');
+				}
+			}
+		}
+		for(Map.Entry<Node, Character> e : marker.entrySet()){
+			if(e.getValue()=='B'){
+				return e.getKey().key;
+			}
+		}
 		return null;
+	}
+	
+	private void markNodes(Map<Node, Character> marker, Node node){
+		if(node == null) return;
+		marker.put(node, 'A');
+		for(Map.Entry<Key, Node> e : node.parents.entrySet()){
+			markNodes(marker, e.getValue());
+		}
+	}
+	
+	private void markNodesB(Map<Node, Character> marker, Node node){
+		if(node == null) return;
+		for(Map.Entry<Key, Node> e : node.parents.entrySet()){
+			if(marker.containsKey(node) && marker.get(node) =='A') marker.put(node, 'B');
+			markNodes(marker, e.getValue());
+		}
 	}
 
     

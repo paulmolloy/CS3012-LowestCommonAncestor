@@ -26,23 +26,20 @@ public class LowestCommonAncestor {
  */
 
 }
-class BST<Key extends Comparable<Key>, Value> {
+class DAG<Key extends Comparable<Key>, Value> {
 	private Node root;
 	Map<Key, Node> nodes;
 	
 	private class Node{
-		private Node parent;
 		private Key key;
 		private Value val;
 		private Node left, right;
-		private int size;
 		Map<Key, Node> parents;
 		Map<Key, Node> children;
 
 		
-		public Node(Key key, Value value, int size){
+		public Node(Key key, Value value){
 			this.val = value;
-			this.size = size;
 			this.key = key;
 			this.parents = new HashMap<Key, Node>();
 			this.children = new HashMap<Key, Node>();
@@ -66,7 +63,7 @@ class BST<Key extends Comparable<Key>, Value> {
 
 	}
 	
-	public BST() {
+	public DAG() {
 		this.nodes = new HashMap<Key, Node>();
 
 
@@ -110,7 +107,7 @@ class BST<Key extends Comparable<Key>, Value> {
     		temp = nodes.get(childK);
     		temp.val = childVal;
     	}
-		temp = new Node(childK, childVal, 0);
+		temp = new Node(childK, childVal);
 		nodes.put(childK, temp);
     	if (nodes.containsKey(parent)) connect(nodes.get(parent), temp);
     }

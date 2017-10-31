@@ -13,7 +13,7 @@ public class LowestCommonAncestorTest {
 
 	@Test
 	public void testDAG() {
-		BST<Integer, Integer> tree = new BST<Integer, Integer>();
+		DAG<Integer, Integer> tree = new DAG<Integer, Integer>();
 		assertTrue("Check is empty", tree.isEmpty() );
 		int expectedSize = 0 ;
 		assertEquals("tree.size() want: "+ expectedSize+ " got: " + tree.size(), expectedSize, tree.size() );
@@ -48,7 +48,7 @@ public class LowestCommonAncestorTest {
 	}
 	@Test
 	public void testLowestCommonAncestor() {
-		BST<Integer, Integer> tree = new BST<Integer, Integer>();
+		DAG<Integer, Integer> tree = new DAG<Integer, Integer>();
 		tree.addChildNode(null, 10, 10); // (parentKey, Key, value)
 		tree.addChildNode(10, 5, 5);
 		tree.addChildNode(5, 2, 2);

@@ -128,18 +128,21 @@ class DAG<Key extends Comparable<Key>, Value> {
 		Map<Node, Character> marker = new HashMap<Node, Character>();
 		Node nodeI = nodes.get(i);
 		Node nodeJ = nodes.get(j);
-		markNodes(marker, nodeI);
-		markNodesB(marker, nodeJ);
+		markNodes(marker, nodeI); // 1. Mark all ancestors of a with A
+		markNodesB(marker, nodeJ);// 2. Mark all ancestors of b that are ancestors of a too with B
 		for(Map.Entry<Node, Character> e : marker.entrySet()){
-			if(e.getValue()=='B'){
+			System.out.println("Marker: " + e.getKey().val);
+			if(e.getValue() == 'B'){
+				System.out.println("is B");
 				for(Map.Entry<Key, Node> p : e.getKey().parents.entrySet()){
-					marker.put(p.getValue(), 'C');
+					marker.put(p.getValue(), 'C'); // 3. Mark parent of all B as C
+					System.out.println("Adding C: " + p.getValue().key);
 				}
 			}
 		}
 		for(Map.Entry<Node, Character> e : marker.entrySet()){
-			if(e.getValue()=='B'){
-				return e.getKey().key;
+			if(e.getValue().charValue() == 'B'){
+				return e.getKey().key; // 4. Any node marked B is lowest common ancestor of the two.
 			}
 		}
 		return null;
@@ -148,6 +151,8 @@ class DAG<Key extends Comparable<Key>, Value> {
 	private void markNodes(Map<Node, Character> marker, Node node){
 		if(node == null) return;
 		marker.put(node, 'A');
+		System.out.println("Adding A: " + node.key);
+
 		for(Map.Entry<Key, Node> e : node.parents.entrySet()){
 			markNodes(marker, e.getValue());
 		}
@@ -156,7 +161,18 @@ class DAG<Key extends Comparable<Key>, Value> {
 	private void markNodesB(Map<Node, Character> marker, Node node){
 		if(node == null) return;
 		for(Map.Entry<Key, Node> e : node.parents.entrySet()){
-			if(marker.containsKey(node) && marker.get(node) =='A') marker.put(node, 'B');
+			System.out.println("Marker mark bs: " + e.getValue().key);
+			if(marker.containsKey(e.getValue()) ){
+				System.out.println("Marker mark is A: " +( marker.get(e.getValue()).charValue()=='A'));
+				if(marker.get(e.getValue()).charValue()=='A') {
+					System.out.println("Adding B: " + node.key);
+
+					marker.put(node, 'B');
+
+				}
+			}
+
+
 			markNodes(marker, e.getValue());
 		}
 	}

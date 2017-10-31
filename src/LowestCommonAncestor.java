@@ -73,6 +73,7 @@ class BST<Key extends Comparable<Key>, Value> {
 	}
 	
 	public Value get(Key k){
+		if (!nodes.containsKey(k)) return null;
 		return nodes.get(k).val;
 	}
 	
@@ -80,13 +81,9 @@ class BST<Key extends Comparable<Key>, Value> {
 		return size() ==0;
 	}
 	public int size() {
-		return size(root);
+		return nodes.size();
 	}
 	
-	public int size(Node n) {
-		if ( n== null) return 0;
-		else return n.size;
-	}
 	
     public boolean contains(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to contains() is null");
@@ -118,9 +115,6 @@ class BST<Key extends Comparable<Key>, Value> {
     	if (nodes.containsKey(parent)) connect(nodes.get(parent), temp);
     }
     
-    public String prettyPrint() {
-    	return root.prettyPrint();
-    }
 
     // lowestCommonAncestor gets the key that is the lowest common ancestor of two given keys
 	public Key lowestCommonAncestor(Key i, Key j) {

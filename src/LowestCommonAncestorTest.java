@@ -20,7 +20,7 @@ public class LowestCommonAncestorTest {
 		tree.addChildNode(null, 10, 10);
 		expectedSize = 1;
 		assertEquals("tree.size() want: "+ expectedSize+ " got: " + tree.size(), expectedSize, tree.size() );
-		tree.addChildNode(5, 10, 10);
+		tree.addChildNode(10, 5, 5);
 		assertEquals("Check is not empty", false, tree.isEmpty());
 		tree.addChildNode(5, 2, 2);
 		expectedSize = 3;
@@ -45,7 +45,6 @@ public class LowestCommonAncestorTest {
 		    └── 5
 		        └── 2
 */
-		System.out.println(tree.prettyPrint());
 	}
 	@Test
 	public void testLowestCommonAncestor() {
@@ -57,7 +56,6 @@ public class LowestCommonAncestorTest {
 		tree.addChildNode(20, 35, 35);
 		tree.addChildNode(35, 36, 36);
 		tree.addChildNode(35, 34, 34);
-		System.out.println(tree.prettyPrint());
 
 
 		Integer expectedResult = 35;

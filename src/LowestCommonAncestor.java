@@ -112,6 +112,14 @@ class DAG<Key extends Comparable<Key>, Value> {
     	if (nodes.containsKey(parent)) connect(nodes.get(parent), temp);
     }
     
+    /*
+     * Parent can be set to null for an unconnected node. If the child key already exists the 
+     */
+    public void makeChild(Key parentK, Key childK){
+    	if(!nodes.containsKey(childK) || !nodes.containsKey(parentK));
+    	connect(nodes.get(parentK), nodes.get(childK));
+    }
+    
 
     // lowestCommonAncestor gets the key that is the lowest common ancestor of two given keys
 	public Key lowestCommonAncestor(Key i, Key j) {

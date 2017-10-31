@@ -44,6 +44,20 @@ public class LowestCommonAncestorTest {
 		└── 10
 		    └── 5
 		        └── 2
+		        
+*/
+		//Adding a second path from 10 to 2
+		tree.makeChild(10, 2); //
+		expectedResult = 2;
+		assertEquals("Check get 20 still there", expectedResult, tree.get(2) );
+
+		
+/*
+		│   ┌── 20
+		└── 10¬¬¬¬¬
+		    └── 5  |
+		        └── 2
+		        
 */
 	}
 	@Test
@@ -88,10 +102,11 @@ public class LowestCommonAncestorTest {
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 20) );
 		 expectedResult = null;
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 50) );
+		
 
-
-
-/*│           ┌── 36
+/*
+		┌──────\
+│       │   ┌── 36
 │       ┌── 35
 │       │   └── 34
 │   ┌── 20
@@ -99,6 +114,11 @@ public class LowestCommonAncestorTest {
     └── 5
         └── 2
  */
+		
+		tree.makeChild(20, 36);
+		 expectedResult = null;
+		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 34) );
+
 		
 	}
 

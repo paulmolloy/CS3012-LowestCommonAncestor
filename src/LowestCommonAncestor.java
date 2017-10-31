@@ -141,9 +141,7 @@ class DAG<Key extends Comparable<Key>, Value> {
 		System.out.println(marker.get(35));
 		System.out.println(marker.values().stream().collect(Collectors.toList()).toString()); 		
 		for(Map.Entry<Node, Character> e : marker.entrySet()){
-			//System.out.println("Marker: " + e.getKey().val);
 			if(e.getValue() == 'B'){
-				//System.out.println("is B");
 				for(Map.Entry<Key, Node> p : e.getKey().parents.entrySet()){
 					marker.put(p.getValue(), 'C'); // 3. Mark parent of all B as C
 					System.out.println("Adding C: " + p.getValue().key);

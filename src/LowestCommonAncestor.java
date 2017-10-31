@@ -1,8 +1,5 @@
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 // Paul Molloy 15323050
 
 public class LowestCommonAncestor {
@@ -23,7 +20,6 @@ public class LowestCommonAncestor {
 
 }
 class DAG<Key extends Comparable<Key>, Value> {
-	private Node root;
 	Map<Key, Node> nodes;
 	
 	private class Node{
@@ -95,8 +91,7 @@ class DAG<Key extends Comparable<Key>, Value> {
     public void makeChild(Key parentK, Key childK){
     	if(!nodes.containsKey(childK) || !nodes.containsKey(parentK));
     	connect(nodes.get(parentK), nodes.get(childK));
-    }
-    
+    } 
 
     // lowestCommonAncestor gets the key that is the lowest common ancestor of two given keys
 	public Key lowestCommonAncestor(Key i, Key j) {
@@ -173,8 +168,6 @@ class DAG<Key extends Comparable<Key>, Value> {
 		}
 		return numAncestors;
 	}
-
-	
 
 }
 

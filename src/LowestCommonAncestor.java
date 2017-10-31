@@ -1,15 +1,10 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-// Paul Molloy 15323050 based on CS2010 BST assignment 
+// Paul Molloy 15323050
+
 public class LowestCommonAncestor {
 
 	
@@ -24,9 +19,6 @@ public class LowestCommonAncestor {
  * 4. Any node marked B is lowest common ancestor of the two.
  * 
  * 
- * TODO: create addEdge(Key a, Key b)
- * TODO: modify lowestCommonAncestor()
- * 
  */
 
 }
@@ -37,10 +29,8 @@ class DAG<Key extends Comparable<Key>, Value> {
 	private class Node{
 		private Key key;
 		private Value val;
-		private Node left, right;
 		Map<Key, Node> parents;
 		Map<Key, Node> children;
-
 		
 		public Node(Key key, Value value){
 			this.val = value;
@@ -49,28 +39,11 @@ class DAG<Key extends Comparable<Key>, Value> {
 			this.children = new HashMap<Key, Node>();
 
 		}
-		
-	    public StringBuilder prettyPrint(StringBuilder prefix, boolean isTail, StringBuilder sb) {
-	        if(right!=null) {
-	            right.prettyPrint(new StringBuilder().append(prefix).append(isTail ? "│   " : "    "), false, sb);
-	        }
-	        sb.append(prefix).append(isTail ? "└── " : "┌── ").append(val.toString()).append("\n");
-	        if(left!=null) {
-	            left.prettyPrint(new StringBuilder().append(prefix).append(isTail ? "    " : "│   "), true, sb);
-	        }
-	        return sb;
-	    }
-
-	    public String prettyPrint() {
-	        return this.prettyPrint(new StringBuilder(), true, new StringBuilder()).toString();
-	    }
 
 	}
 	
 	public DAG() {
 		this.nodes = new HashMap<Key, Node>();
-
-
 	}
 	
 	public Value get(Key k){
@@ -99,7 +72,6 @@ class DAG<Key extends Comparable<Key>, Value> {
     	if(a!= null && b != null){
         	a.children.put(b.key, b);
         	b.parents.put(a.key, a);
-        	//System.out.println("Key: " + b.key + "num ancestors: " +  genNumAncestors(b));
     	}
     }
    
@@ -117,7 +89,7 @@ class DAG<Key extends Comparable<Key>, Value> {
     	if (nodes.containsKey(parent)) connect(nodes.get(parent), temp);
     }
     
-    /*
+    /* makeChild makes a directed edge between parentK and childK in the DAG.
      * Parent can be set to null for an unconnected node. If the child key already exists the 
      */
     public void makeChild(Key parentK, Key childK){
@@ -133,23 +105,17 @@ class DAG<Key extends Comparable<Key>, Value> {
 		Map<Node, Character> marker = new HashMap<Node, Character>();
 		Node nodeI = nodes.get(i);
 		Node nodeJ = nodes.get(j);
-		markNodes(marker, nodeI); // 1. Mark all ancestors of a with A
-		System.out.println();
-		markNodesB(marker, nodeJ);// 2. Mark all ancestors of b that are ancestors of a too with B
-		System.out.println("after markNodesB");
+		markAncestorNodes(marker, nodeI); // 1. Mark all ancestors of i with A
+		markCommonAncestorNodes(marker, nodeJ);// 2. Mark all ancestors of j that are ancestors of i too with B
 
-		System.out.println(marker.get(35));
-		System.out.println(marker.values().stream().collect(Collectors.toList()).toString()); 		
 		for(Map.Entry<Node, Character> e : marker.entrySet()){
 			if(e.getValue() == 'B'){
 				for(Map.Entry<Key, Node> p : e.getKey().parents.entrySet()){
-					marker.put(p.getValue(), 'C'); // 3. Mark parent of all B as C
-					System.out.println("Adding C: " + p.getValue().key);
+					marker.put(p.getValue(), 'C'); // 3. Mark parent of all Nodes marked B as C
 				}
 			}
 		}
 		for(Map.Entry<Node, Character> e : marker.entrySet()){
-			System.out.println("printing out" + e.getKey().key + "mark: " + e.getValue());
 			if(e.getValue().charValue() == 'B'){
 				return e.getKey().key; // 4. Any node marked B is lowest common ancestor of the two.
 			}
@@ -157,46 +123,39 @@ class DAG<Key extends Comparable<Key>, Value> {
 		return null;
 	}
 	
-	private void markNodes(Map<Node, Character> marker, Node node){
+	// markAncestorNodes marks all ancestors of a node with A in the inputted map.
+	private void markAncestorNodes(Map<Node, Character> marker, Node node){
 		if(node == null) return;
 		if(!marker.containsKey(node)) {
-			System.out.println("Adding A: " + node.key);
 			marker.put(node, 'A');
 		}
 		for(Map.Entry<Key, Node> e : node.parents.entrySet()){
-			markNodes(marker, e.getValue());
+			markAncestorNodes(marker, e.getValue());
 		}
 	}
 	
-	private void markNodesB(Map<Node, Character> marker, Node node){
+	/* markAncestorNodes marks all ancestors of a node that have already been marked a B in the inputed map.
+	 * i.e. marks all shared ancestors of the two nodes that are being checked with a B
+	 */
+	private void markCommonAncestorNodes(Map<Node, Character> marker, Node node){
 		if(node == null) return;
 		if(marker.containsKey(node) && marker.get(node).charValue()=='A' ) {
-			System.out.println("Adding B: " + node.key);
 			marker.put(node, 'B');
 		}
 		for(Map.Entry<Key, Node> e : node.parents.entrySet()){
-			//System.out.println("Marker mark bs: " + e.getValue().key);
-			if(marker.containsKey(e.getValue()) ){
-				System.out.println("Marker mark for " + e.getValue().key + "is A: " +( marker.get(e.getValue()).charValue()=='A'));
-				if(marker.get(e.getValue()).charValue()=='A') {
-					System.out.println("Adding B: " + e.getValue().key);
-
-					marker.put(e.getValue(), 'B');
-					System.out.println(marker.values().stream().collect(Collectors.toList()).toString()); 		
-
-
-				}
+			if(marker.containsKey(e.getValue()) && marker.get(e.getValue()).charValue()=='A'){
+				marker.put(e.getValue(), 'B');
 			}
-
-
-			markNodesB(marker, e.getValue());
+			markCommonAncestorNodes(marker, e.getValue());
 		}
 	}
 	
+	// printAncestorsList lists the Ancestors that each Node has.
+	// used to help understand the structure of the Graph.
 	public void printAncestorsList() {
-		//System.out.println("Ancestors List:" );
+		System.out.println("Ancestors List:" );
 		for(Node n: nodes.values()) {
-        	//System.out.println("Key: " + n.key + "num ancestors: " +  genNumAncestors(n));
+        	System.out.println("Key: " + n.key + " num ancestors: " +  genNumAncestors(n));
 		}
 	}
 	
@@ -214,37 +173,8 @@ class DAG<Key extends Comparable<Key>, Value> {
 		}
 		return numAncestors;
 	}
-	public boolean hasCycle() {
-		return hasCycle(root);
-	}
-	private boolean hasCycle(Node n) {
-		Iterator<Node> nodesIterator = nodes.values().iterator();
-		while(nodesIterator.hasNext()) {
-			Set<Node> isVisited = new HashSet<Node>();
-			if(hasCycle(nodesIterator.next(), isVisited)) return true;
-		}
-		return false;
-		
-	}
-	private boolean hasCycle(Node n, Set<Node> isVisited) {
-		isVisited = new HashSet<Node>();
-		System.out.println("Current node: " + n.key );
-		if(n==null) return false;
-		for(Node curNode : n.parents.values()) {
-			System.out.println(curNode.key);
-			if(isVisited.contains(curNode)) {
-				return true;
-			}
-			else isVisited.add(curNode);
-			
-			if(hasCycle(curNode)) return true;
-			isVisited.remove(curNode);
-			
-		}
-		return false;
-	}
 
-    
+	
 
 }
 

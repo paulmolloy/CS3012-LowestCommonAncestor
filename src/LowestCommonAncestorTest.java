@@ -56,52 +56,6 @@ public class LowestCommonAncestorTest {
 */
 	}
 	
-	@Test
-	public void testHasCycle() {
-		DAG<Integer, Integer> tree = new DAG<Integer, Integer>();
-		tree.addChildNode(null, 10, 10); // (parentKey, Key, value)
-		tree.addChildNode(10, 5, 5);
-		tree.addChildNode(5, 2, 2);
-		tree.addChildNode(10, 20, 20);
-		tree.addChildNode(20, 35, 35);
-		tree.addChildNode(35, 36, 36);
-		tree.addChildNode(35, 34, 34);
-		
-		tree.printAncestorsList();
-		boolean expectedResult = false;
-		//assertEquals("LowestCommonAncestor:", expectedResult, tree.hasCycle());
-
-/*
-		┌── 36
-│           │
-│       ┌── 35<--|
-│       │   └── 34
-│   ┌── 20
-└── 10
-└── 5
-    └── 2
-    
-*/
-		tree.addChildNode(34, 35, 35);
-		expectedResult = true;
-		//assertEquals("LowestCommonAncestor:", expectedResult, tree.hasCycle());
-		
-
-/*
-			┌── 36
-│           │
-│       ┌── 35<--|
-│       │   └── 34
-│   ┌── 20
-└── 10
-    └── 5
-        └── 2
-        
- */
-
-		
-	}
-	
 	
 	@Test
 	public void testLowestCommonAncestor() {
@@ -118,63 +72,48 @@ public class LowestCommonAncestorTest {
 
 
 		Integer expectedResult = 35;
-		System.out.println("lca( 36, 34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 34) );
 		
 		 expectedResult = 34;
-		System.out.println("lca( 34, 34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(34, 34) );
 		 
 		expectedResult = 10;
-		System.out.println("lca( 36, 5)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 5) );
 		 
 		expectedResult = 10;
-		System.out.println("lca( 5,36)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(5, 36) );
 		 
 		expectedResult = 10;
-		System.out.println("lca( 2,36)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 36) );
 		 
 		expectedResult = 10;
-		System.out.println("lca( 36,2)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 2) );
 		
 		expectedResult = 10;
-		System.out.println("lca( 20,2)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 2) );
 		
 		expectedResult = 2;
-		System.out.println("lca( 2,2)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 2) );
 		
 		expectedResult = 10;
-		System.out.println("lca( 2,10)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 10) );
 		
 		 expectedResult = 2;
-		 System.out.println("lca( 2,2)");
    		 assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 2) );
 		 
    		 expectedResult = 20;
-   		 System.out.println("lca( 20,34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 34) );
 		
 		 expectedResult = 10;
-   		 System.out.println("lca( 20,34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(10, 10) );
 		
 		 expectedResult = 5;
-   		 System.out.println("lca( 20,34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 5) );
 		
 		 expectedResult = 20;
-   		 System.out.println("lca( 20,34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 20) );
 		
 		 expectedResult = null;
-   		 System.out.println("lca( 20,34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(20, 50) );
 		
 
@@ -195,7 +134,6 @@ public class LowestCommonAncestorTest {
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 34) );
 		
 		expectedResult = 10;
-  		System.out.println("lca( 2,34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 34) );
 		
 		
@@ -206,16 +144,16 @@ public class LowestCommonAncestorTest {
 │       │   └── 34
 │   ┌── 20        \
 └── 10             │
-    └───────────── 5
+    └─────────────  5
                    └── 2
         
  */
 
 		tree.makeChild(34, 5);
 		expectedResult = 34;
- 		System.out.println("lca( 2,34)");
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(2, 34) );
 	}
+	
 
 }
 

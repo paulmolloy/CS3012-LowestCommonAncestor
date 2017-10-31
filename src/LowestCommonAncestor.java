@@ -136,6 +136,8 @@ class DAG<Key extends Comparable<Key>, Value> {
 		markNodes(marker, nodeI); // 1. Mark all ancestors of a with A
 		System.out.println();
 		markNodesB(marker, nodeJ);// 2. Mark all ancestors of b that are ancestors of a too with B
+		System.out.println("after markNodesB");
+
 		System.out.println(marker.get(35));
 		System.out.println(marker.values().stream().collect(Collectors.toList()).toString()); 		
 		for(Map.Entry<Node, Character> e : marker.entrySet()){
@@ -189,7 +191,7 @@ class DAG<Key extends Comparable<Key>, Value> {
 			}
 
 
-			markNodes(marker, e.getValue());
+			markNodesB(marker, e.getValue());
 		}
 	}
 	

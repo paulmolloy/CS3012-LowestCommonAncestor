@@ -176,7 +176,7 @@ public class LowestCommonAncestorTest {
  */
 		
 		tree.makeChild(20, 36);
-		 expectedResult = null;
+		 expectedResult = 35;
 		assertEquals("LowestCommonAncestor:", expectedResult, tree.lowestCommonAncestor(36, 34) );
 
 		

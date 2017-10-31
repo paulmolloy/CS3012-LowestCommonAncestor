@@ -70,6 +70,8 @@ public class LowestCommonAncestorTest {
 		tree.addChildNode(20, 35, 35);
 		tree.addChildNode(35, 36, 36);
 		tree.addChildNode(35, 34, 34);
+		
+		tree.printAncestorsList();
 
 
 		Integer expectedResult = 35;
@@ -113,6 +115,7 @@ public class LowestCommonAncestorTest {
 └── 10
     └── 5
         └── 2
+        
  */
 		
 		tree.makeChild(20, 36);

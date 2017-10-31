@@ -95,6 +95,7 @@ class DAG<Key extends Comparable<Key>, Value> {
     	if(a!= null && b != null){
         	a.children.put(b.key, b);
         	b.parents.put(a.key, a);
+        	//System.out.println("Key: " + b.key + "num ancestors: " +  genNumAncestors(b));
     	}
     }
    
@@ -175,6 +176,28 @@ class DAG<Key extends Comparable<Key>, Value> {
 
 			markNodes(marker, e.getValue());
 		}
+	}
+	
+	public void printAncestorsList() {
+		System.out.println("Ancestors List:" );
+		for(Node n: nodes.values()) {
+        	System.out.println("Key: " + n.key + "num ancestors: " +  genNumAncestors(n));
+		}
+	}
+	
+	private int genNumAncestors(Node n) {
+		Map<Key, Node> isVisited = new HashMap<Key, Node>();
+		return genNumAncestors(n, isVisited);
+		
+	}
+	private int genNumAncestors(Node n, Map<Key, Node> isVisited) {
+		int numAncestors = 0;
+		isVisited = new HashMap<Key, Node>();
+		for(Node curNode : n.parents.values()) {
+			numAncestors++;
+			numAncestors += genNumAncestors(curNode);
+		}
+		return numAncestors;
 	}
 
     
